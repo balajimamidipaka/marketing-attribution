@@ -1,0 +1,233 @@
+CREATE DATABASE IF NOT EXISTS MARKETING_DB;
+
+SHOW DATABASES LIKE 'MARKETING_DB';
+
+CREATE SCHEMA IF NOT EXISTS MARKETING_DB.RAW;
+
+CREATE SCHEMA IF NOT EXISTS MARKETING_DB.CLEANED;
+
+CREATE SCHEMA IF NOT EXISTS MARKETING_DB.ANALYTICS;
+
+SHOW SCHEMAS IN DATABASE MARKETING_DB;
+
+USE DATABASE MARKETING_DB;
+
+USE SCHEMA RAW;
+
+CREATE TABLE CAMPAIGNS_RAW (
+
+    campaign_id VARCHAR(50),
+
+    campaign_name VARCHAR(150),
+
+    source_platform VARCHAR(100),
+
+    channel VARCHAR(100),
+
+    budget_amount VARCHAR(50),
+
+    budget_currency VARCHAR(10),
+
+    start_date VARCHAR(30),
+
+    end_date VARCHAR(30),
+
+    campaign_status VARCHAR(30)
+
+);
+
+CREATE TABLE CAMPAIGN_SPEND_RAW (
+
+    spend_id VARCHAR(50),
+
+    campaign_id VARCHAR(50),
+
+    spend_date VARCHAR(30),
+
+    spend_amount VARCHAR(50),
+
+    currency VARCHAR(10),
+
+    source_platform VARCHAR(100)
+
+);
+
+CREATE TABLE CONVERSIONS_RAW (
+
+    event_id VARCHAR(50),
+
+    order_id VARCHAR(50),
+
+    user_id VARCHAR(50),
+
+    conversion_timestamp VARCHAR(50),
+
+    revenue_amount VARCHAR(50),
+
+    currency VARCHAR(10),
+
+    conversion_source VARCHAR(50),
+
+    source_timezone VARCHAR(100)
+
+);
+
+CREATE TABLE TOUCHPOINTS_RAW (
+
+    touchpoint_id VARCHAR(50),
+
+    user_id VARCHAR(50),
+
+    anonymous_id VARCHAR(100),
+
+    campaign_id VARCHAR(50),
+
+    source_channel VARCHAR(100),
+
+    interaction_type VARCHAR(30),
+
+    touchpoint_timestamp VARCHAR(50),
+
+    device_type VARCHAR(30),
+
+    source_timezone VARCHAR(100)
+
+);
+
+CREATE TABLE CHANNEL_MAPPING_RAW (
+
+    source_channel VARCHAR(100),
+
+    standard_channel VARCHAR(100),
+
+    source_platform VARCHAR(100)
+
+);
+
+SHOW TABLES IN SCHEMA MARKETING_DB.RAW;
+
+CREATE WAREHOUSE MARKETING_WH
+WITH
+    WAREHOUSE_SIZE = 'XSMALL'
+    AUTO_SUSPEND = 60
+    AUTO_RESUME = TRUE
+    INITIALLY_SUSPENDED = TRUE;
+
+USE WAREHOUSE MARKETING_WH;
+
+SELECT *
+FROM MARKETING_DB.RAW.CONVERSIONS_RAW;
+
+SELECT 'CAMPAIGNS_RAW' AS TABLE_NAME, COUNT(*) AS TOTAL_RECORDS
+FROM MARKETING_DB.RAW.CAMPAIGNS_RAW
+
+UNION ALL
+
+SELECT 'CAMPAIGN_SPEND_RAW', COUNT(*)
+FROM MARKETING_DB.RAW.CAMPAIGN_SPEND_RAW
+
+UNION ALL
+
+SELECT 'CONVERSIONS_RAW', COUNT(*)
+FROM MARKETING_DB.RAW.CONVERSIONS_RAW
+
+UNION ALL
+
+SELECT 'TOUCHPOINTS_RAW', COUNT(*)
+FROM MARKETING_DB.RAW.TOUCHPOINTS_RAW
+
+UNION ALL
+
+SELECT 'CHANNEL_MAPPING_RAW', COUNT(*)
+FROM MARKETING_DB.RAW.CHANNEL_MAPPING_RAW;
+
+SELECT *
+FROM MARKETING_DB.RAW.CHANNEL_MAPPING_RAW;
+
+DELETE FROM MARKETING_DB.RAW.CHANNEL_MAPPING_RAW
+WHERE LOWER(TRIM(SOURCE_CHANNEL)) = 'source_channel'
+  AND LOWER(TRIM(STANDARD_CHANNEL)) = 'standard_channel'
+  AND LOWER(TRIM(SOURCE_PLATFORM)) = 'source_platform';
+
+
+USE DATABASE MARKETING_DB;
+
+USE SCHEMA CLEANED;
+
+CREATE TABLE CAMPAIGNS (
+    campaign_id VARCHAR(50),
+    campaign_name VARCHAR(150),
+    source_platform VARCHAR(100),
+    channel VARCHAR(100),
+    budget_amount NUMBER(12,2),
+    budget_currency VARCHAR(10),
+    start_date DATE,
+    end_date DATE,
+    campaign_status VARCHAR(30)
+);
+
+CREATE TABLE CAMPAIGN_SPEND (
+    spend_id VARCHAR(50),
+    campaign_id VARCHAR(50),
+    spend_date DATE,
+    spend_amount NUMBER(12,2),
+    currency VARCHAR(10),
+    source_platform VARCHAR(100)
+);
+
+
+CREATE TABLE CONVERSIONS (
+    event_id VARCHAR(50),
+    order_id VARCHAR(50),
+    user_id VARCHAR(50),
+    conversion_timestamp TIMESTAMP_NTZ,
+    revenue_amount NUMBER(12,2),
+    currency VARCHAR(10),
+    conversion_source VARCHAR(50),
+    source_timezone VARCHAR(100),
+    identity_status VARCHAR(20)
+);
+
+CREATE TABLE TOUCHPOINTS (
+    touchpoint_id VARCHAR(50),
+    user_id VARCHAR(50),
+    anonymous_id VARCHAR(100),
+    campaign_id VARCHAR(50),
+    source_channel VARCHAR(100),
+    interaction_type VARCHAR(30),
+    touchpoint_timestamp TIMESTAMP_NTZ,
+    device_type VARCHAR(30),
+    source_timezone VARCHAR(100),
+    identity_status VARCHAR(20)
+);
+
+CREATE TABLE CHANNEL_MAPPING (
+    source_channel VARCHAR(100),
+    standard_channel VARCHAR(100),
+    source_platform VARCHAR(100)
+);
+
+SHOW TABLES IN SCHEMA MARKETING_DB.CLEANED;
+
+SELECT 'CAMPAIGNS' AS TABLE_NAME, COUNT(*) AS TOTAL_RECORDS
+FROM MARKETING_DB.CLEANED.CAMPAIGNS
+
+UNION ALL
+
+SELECT 'CAMPAIGN_SPEND', COUNT(*)
+FROM MARKETING_DB.CLEANED.CAMPAIGN_SPEND
+
+UNION ALL
+
+SELECT 'CONVERSIONS', COUNT(*)
+FROM MARKETING_DB.CLEANED.CONVERSIONS
+
+UNION ALL
+
+SELECT 'TOUCHPOINTS', COUNT(*)
+FROM MARKETING_DB.CLEANED.TOUCHPOINTS
+
+UNION ALL
+
+SELECT 'CHANNEL_MAPPING', COUNT(*)
+FROM MARKETING_DB.CLEANED.CHANNEL_MAPPING;

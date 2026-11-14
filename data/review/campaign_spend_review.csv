@@ -1,0 +1,2 @@
+spend_id,campaign_id,spend_date,spend_amount,currency,source_platform,review_reason
+SP020,CMP001,2026-11-03,5100.0,INR,Google Ads,Possible duplicate spend record

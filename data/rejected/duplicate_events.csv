@@ -1,0 +1,2 @@
+event_id,order_id,user_id,conversion_timestamp,revenue_amount,currency,conversion_source,source_timezone,rejection_reason
+EV019,ORD1018,U016,2026-11-11 11:30:00,4000,INR,WEB,Asia/Kolkata,Duplicate event ID

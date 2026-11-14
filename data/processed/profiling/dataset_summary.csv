@@ -1,0 +1,6 @@
+dataset,total_rows,total_columns,duplicate_rows,total_missing_cells
+campaigns,5,9,0,0
+campaign_spend,22,6,0,1
+conversions,20,8,1,1
+touchpoints,27,9,1,1
+channel_mapping,18,3,0,0

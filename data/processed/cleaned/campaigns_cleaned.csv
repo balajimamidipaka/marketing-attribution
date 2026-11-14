@@ -1,0 +1,6 @@
+campaign_id,campaign_name,source_platform,channel,budget_amount,budget_currency,start_date,end_date,campaign_status
+CMP001,Summer Sale Search,Google Ads,Paid Search,100000,INR,2026-11-01,2026-11-30,ACTIVE
+CMP002,Diwali Social Reach,Meta Ads,Paid Social,80000,INR,2026-11-01,2026-11-30,ACTIVE
+CMP003,Retargeting Display,Google Display,Display,50000,INR,2026-11-01,2026-11-30,ACTIVE
+CMP004,Festive Email Push,Email Platform,Email,30000,INR,2026-11-01,2026-11-30,ACTIVE
+CMP005,Brand Awareness Video,YouTube Ads,Video,60000,INR,2026-11-01,2026-11-30,ACTIVE

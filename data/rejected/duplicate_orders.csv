@@ -1,0 +1,2 @@
+event_id,order_id,user_id,conversion_timestamp,revenue_amount,currency,conversion_source,source_timezone,rejection_reason
+EV016,ORD1003,U003,2026-11-04 14:06:00,15000,INR,APP,Asia/Kolkata,Duplicate order ID - earliest valid event retained

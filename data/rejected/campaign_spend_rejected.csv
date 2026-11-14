@@ -1,0 +1,2 @@
+spend_id,campaign_id,spend_date,spend_amount,currency,source_platform,rejection_reason
+SP021,CMP002,2026-11-06,,INR,Meta Ads,Missing or invalid spend/date
